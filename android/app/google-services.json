@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "743231003991",
+    "firebase_url": "https://chat-app-tejuslemonnn-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "chat-app-tejuslemonnn",
+    "storage_bucket": "chat-app-tejuslemonnn.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:743231003991:android:a1b0aab1a2bcb875953212",
+        "android_client_info": {
+          "package_name": "com.tejuslemonnn.chat_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "743231003991-5ourdfempo662f62o37vj63i9smocn09.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tejuslemonnn.chat_app",
+            "certificate_hash": "1f21e1dd22b78877c77ac26c3de56ff187678110"
+          }
+        },
+        {
+          "client_id": "743231003991-4juljpb02pptioh5aaj20slc06ldb4bk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtXpmxvX93hHao0-zWxpiLbVuov7E2RXA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "743231003991-4juljpb02pptioh5aaj20slc06ldb4bk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
