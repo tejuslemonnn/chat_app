@@ -37,7 +37,7 @@ class ChangeProfileView extends GetView<ChangeProfileController> {
               AvatarGlow(
                 endRadius: 110,
                 glowColor: Colors.black,
-                duration: Duration(seconds: 2),
+                duration: const Duration(seconds: 2),
                 child: Container(
                   margin: EdgeInsets.only(
                     bottom: context.mediaQueryPadding.bottom + 10,
@@ -61,24 +61,24 @@ class ChangeProfileView extends GetView<ChangeProfileController> {
                 cursorColor: Colors.black,
                 decoration: InputDecoration(
                   labelText: "Email",
-                  labelStyle: TextStyle(
+                  labelStyle: const TextStyle(
                     color: Colors.black,
                   ),
                   focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(100),
-                      borderSide: BorderSide(
+                      borderSide: const BorderSide(
                         color: Colors.red,
                       )),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(100),
                   ),
-                  contentPadding: EdgeInsets.symmetric(
+                  contentPadding: const EdgeInsets.symmetric(
                     horizontal: 30,
                     vertical: 15,
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               TextField(
@@ -86,24 +86,24 @@ class ChangeProfileView extends GetView<ChangeProfileController> {
                 cursorColor: Colors.black,
                 decoration: InputDecoration(
                   labelText: "Name",
-                  labelStyle: TextStyle(
+                  labelStyle: const TextStyle(
                     color: Colors.black,
                   ),
                   focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(100),
-                      borderSide: BorderSide(
+                      borderSide: const BorderSide(
                         color: Colors.red,
                       )),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(100),
                   ),
-                  contentPadding: EdgeInsets.symmetric(
+                  contentPadding: const EdgeInsets.symmetric(
                     horizontal: 30,
                     vertical: 15,
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               TextField(
@@ -111,58 +111,58 @@ class ChangeProfileView extends GetView<ChangeProfileController> {
                 cursorColor: Colors.black,
                 decoration: InputDecoration(
                   labelText: "Status",
-                  labelStyle: TextStyle(
+                  labelStyle: const TextStyle(
                     color: Colors.black,
                   ),
                   focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(100),
-                      borderSide: BorderSide(
+                      borderSide: const BorderSide(
                         color: Colors.red,
                       )),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(100),
                   ),
-                  contentPadding: EdgeInsets.symmetric(
+                  contentPadding: const EdgeInsets.symmetric(
                     horizontal: 30,
                     vertical: 15,
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("No Image"),
+                  const Text("No Image"),
                   TextButton(
                     onPressed: () {},
-                    child: Text("Choose Image"),
+                    child: const Text("Choose Image"),
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
-              Container(
+              SizedBox(
                 width: Get.width,
                 child: ElevatedButton(
                   onPressed: () {},
-                  child: Text(
-                    "Update",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.red[900],
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(100),
                     ),
-                    padding: EdgeInsets.symmetric(
+                    padding: const EdgeInsets.symmetric(
                       horizontal: 30,
                       vertical: 15,
+                    ),
+                  ),
+                  child: const Text(
+                    "Update",
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),

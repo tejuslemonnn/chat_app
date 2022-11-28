@@ -15,11 +15,6 @@ class ChangeProfileController extends GetxController {
   }
 
   @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
   void onClose() {
     emailC.dispose();
     nameC.dispose();

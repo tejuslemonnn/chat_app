@@ -9,6 +9,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
 import 'package:get/get.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+
 import 'app/routes/app_pages.dart';
 
 void main() async {
@@ -16,6 +18,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await Hive.initFlutter();
   runApp(MyApp());
 }
 
@@ -60,7 +63,10 @@ class MyApp extends StatelessWidget {
                 );
               }
 
-              return SplashScreen();
+              return FutureBuilder(
+                future: authC.firstInitialized(),
+                builder: (context, snapshot) => SplashScreen(),
+              );
             },
           );
         }
