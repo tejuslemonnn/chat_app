@@ -1,3 +1,4 @@
+import 'package:chat_app/app/controllers/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -8,8 +9,8 @@ class ChangeProfileController extends GetxController {
 
   @override
   void onInit() {
-    emailC = TextEditingController(text: "lorem@gmail.com");
-    nameC = TextEditingController(text: "lorem ipsum");
+    emailC = TextEditingController();
+    nameC = TextEditingController();
     statusC = TextEditingController();
     super.onInit();
   }

@@ -1,4 +1,5 @@
 import 'package:avatar_glow/avatar_glow.dart';
+import 'package:chat_app/app/controllers/auth_controller.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -6,7 +7,8 @@ import 'package:get/get.dart';
 import '../controllers/change_profile_controller.dart';
 
 class ChangeProfileView extends GetView<ChangeProfileController> {
-  const ChangeProfileView({Key? key}) : super(key: key);
+  ChangeProfileView({Key? key}) : super(key: key);
+  final authC = Get.find<AuthController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,20 +41,21 @@ class ChangeProfileView extends GetView<ChangeProfileController> {
                 glowColor: Colors.black,
                 duration: const Duration(seconds: 2),
                 child: Container(
-                  margin: EdgeInsets.only(
-                    bottom: context.mediaQueryPadding.bottom + 10,
-                  ),
+                  margin: EdgeInsets.all(15),
                   height: 120,
                   width: 120,
                   decoration: BoxDecoration(
                     color: Colors.black54,
                     borderRadius: BorderRadius.circular(100),
-                    image: const DecorationImage(
-                      image: AssetImage(
-                        "assets/logo/noimage.png",
-                      ),
-                      fit: BoxFit.cover,
-                    ),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(200),
+                    child: authC.user.photoUrl == "noimage"
+                        ? Image.asset("assets/logo/noimage.png")
+                        : Image.network(
+                            "${authC.user.photoUrl}",
+                            fit: BoxFit.cover,
+                          ),
                   ),
                 ),
               ),

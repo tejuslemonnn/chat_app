@@ -12,6 +12,7 @@ class ProfileView extends GetView<ProfileController> {
   final authC = Get.find<AuthController>();
   @override
   Widget build(BuildContext context) {
+    final authC = Get.find<AuthController>();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -51,25 +52,28 @@ class ProfileView extends GetView<ProfileController> {
                     decoration: BoxDecoration(
                       color: Colors.black54,
                       borderRadius: BorderRadius.circular(100),
-                      image: const DecorationImage(
-                        image: AssetImage(
-                          "assets/logo/noimage.png",
-                        ),
-                        fit: BoxFit.cover,
-                      ),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(200),
+                      child: authC.user.photoUrl == "noimage"
+                          ? Image.asset("assets/logo/noimage.png")
+                          : Image.network(
+                              "${authC.user.photoUrl}",
+                              fit: BoxFit.cover,
+                            ),
                     ),
                   ),
                 ),
-                const Text(
-                  "Lorem Ipsum",
+                Text(
+                  "${authC.user.name}",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const Text(
-                  "lorem@gmail.com",
+                Text(
+                  "${authC.user.email}",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 16,

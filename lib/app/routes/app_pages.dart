@@ -62,7 +62,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.CHANGE_PROFILE,
-      page: () => const ChangeProfileView(),
+      page: () => ChangeProfileView(),
       binding: ChangeProfileBinding(),
     ),
   ];
