@@ -1,4 +1,4 @@
-import 'package:chat_app/app/data/models/users_model_model.dart';
+import 'package:chat_app/app/data/models/users_model.dart';
 import 'package:chat_app/app/routes/app_pages.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -21,7 +21,7 @@ class AuthController extends GetxController {
   UserCredential? userCredential;
   FirebaseFirestore fireStore = FirebaseFirestore.instance;
 
-  UsersModel user = UsersModel();
+  var user = UsersModel().obs;
 
   Future<void> firstInitialized() async {
     await autoLogin().then((value) {
@@ -63,16 +63,17 @@ class AuthController extends GetxController {
         final accUser = await users.doc(_accountUser!.email).get();
         final accUserData = accUser.data() as Map<String, dynamic>;
 
-        user = UsersModel(
+        user(UsersModel(
           uid: accUserData["uid"],
           name: accUserData["name"],
+          keyName: accUserData["keyName"],
           email: accUserData["email"],
           photoUrl: accUserData["photoUrl"],
           status: accUserData["status"],
           createdAt: accUserData["createdAt"],
           lastSignIn: accUserData["lastSignIn"],
           updatedAt: accUserData["updatedAt"],
-        );
+        ));
 
         return true;
       }
@@ -117,6 +118,7 @@ class AuthController extends GetxController {
           await users.doc(_accountUser!.email).set({
             "uid": userCredential!.user!.uid,
             "name": _accountUser!.displayName,
+            "keyName": _accountUser!.displayName!.substring(0, 1).toUpperCase(),
             "email": _accountUser!.email,
             "photoUrl": _accountUser!.photoUrl ?? "noimage",
             "status": "",
@@ -136,16 +138,17 @@ class AuthController extends GetxController {
         final accUser = await users.doc(_accountUser!.email).get();
         final accUserData = accUser.data() as Map<String, dynamic>;
 
-        user = UsersModel(
+        user(UsersModel(
           uid: accUserData["uid"],
           name: accUserData["name"],
+          keyName: accUserData["keyName"],
           email: accUserData["email"],
           photoUrl: accUserData["photoUrl"],
           status: accUserData["status"],
           createdAt: accUserData["createdAt"],
           lastSignIn: accUserData["lastSignIn"],
           updatedAt: accUserData["updatedAt"],
-        );
+        ));
 
         isAuth.value = true;
         Get.offAllNamed(Routes.HOME);
@@ -159,5 +162,36 @@ class AuthController extends GetxController {
     await _googleSignIn.disconnect().catchError((onError) => print(onError));
     await _googleSignIn.signOut();
     Get.offAllNamed(Routes.LOGIN);
+  }
+
+  Future<void> changeProfile(String name, String status) async {
+    CollectionReference users = fireStore.collection("users");
+
+    final date = DateTime.now().toIso8601String();
+
+    users.doc(_accountUser!.email).update({
+      "name": name,
+      "status": status,
+      "keyName": name.substring(0, 1).toUpperCase(),
+      "lastSignIn":
+          userCredential!.user!.metadata.lastSignInTime!.toIso8601String(),
+      "updatedAt": date,
+    });
+
+    user.update((val) {
+      val!.name = name;
+      val.status = status;
+      val.keyName = name.substring(0, 1).toUpperCase();
+      val.lastSignIn =
+          userCredential!.user!.metadata.lastSignInTime!.toIso8601String();
+      val.updatedAt = date;
+    });
+
+    user.refresh();
+
+    Get.defaultDialog(
+      title: "Success",
+      middleText: "Profile Changed",
+    );
   }
 }

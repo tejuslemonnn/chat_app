@@ -10,6 +10,7 @@ import '../controllers/profile_controller.dart';
 class ProfileView extends GetView<ProfileController> {
   ProfileView({Key? key}) : super(key: key);
   final authC = Get.find<AuthController>();
+
   @override
   Widget build(BuildContext context) {
     final authC = Get.find<AuthController>();
@@ -55,25 +56,27 @@ class ProfileView extends GetView<ProfileController> {
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(200),
-                      child: authC.user.photoUrl == "noimage"
+                      child: authC.user.value.photoUrl == "noimage"
                           ? Image.asset("assets/logo/noimage.png")
                           : Image.network(
-                              "${authC.user.photoUrl}",
+                              "${authC.user.value.photoUrl}",
                               fit: BoxFit.cover,
                             ),
                     ),
                   ),
                 ),
+                Obx(() {
+                  return Text(
+                    "${authC.user.value.name}",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  );
+                }),
                 Text(
-                  "${authC.user.name}",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  "${authC.user.email}",
+                  "${authC.user.value.email}",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 16,
@@ -89,15 +92,6 @@ class ProfileView extends GetView<ProfileController> {
             child: Container(
               child: Column(
                 children: [
-                  ListTile(
-                    onTap: () => Get.toNamed(Routes.UPDATE_STATUS),
-                    leading: const Icon(Icons.note_add_outlined),
-                    title: const Text("Update Status"),
-                    trailing: const Icon(
-                      Icons.arrow_right,
-                      size: 30,
-                    ),
-                  ),
                   ListTile(
                     onTap: () => Get.toNamed(Routes.CHANGE_PROFILE),
                     leading: const Icon(Icons.person),

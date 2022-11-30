@@ -11,6 +11,9 @@ class ChangeProfileView extends GetView<ChangeProfileController> {
   final authC = Get.find<AuthController>();
   @override
   Widget build(BuildContext context) {
+    controller.emailC.text = authC.user.value.email!;
+    controller.nameC.text = authC.user.value.name!;
+    controller.statusC.text = authC.user.value.status ?? "";
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.red[900],
@@ -24,7 +27,10 @@ class ChangeProfileView extends GetView<ChangeProfileController> {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              authC.changeProfile(
+                  controller.nameC.text, controller.statusC.text);
+            },
             icon: const Icon(
               Icons.save,
             ),
@@ -50,17 +56,19 @@ class ChangeProfileView extends GetView<ChangeProfileController> {
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(200),
-                    child: authC.user.photoUrl == "noimage"
+                    child: authC.user.value.photoUrl == "noimage"
                         ? Image.asset("assets/logo/noimage.png")
                         : Image.network(
-                            "${authC.user.photoUrl}",
+                            "${authC.user.value.photoUrl}",
                             fit: BoxFit.cover,
                           ),
                   ),
                 ),
               ),
               TextField(
+                readOnly: true,
                 controller: controller.emailC,
+                textInputAction: TextInputAction.next,
                 cursorColor: Colors.black,
                 decoration: InputDecoration(
                   labelText: "Email",
@@ -86,6 +94,7 @@ class ChangeProfileView extends GetView<ChangeProfileController> {
               ),
               TextField(
                 controller: controller.nameC,
+                textInputAction: TextInputAction.next,
                 cursorColor: Colors.black,
                 decoration: InputDecoration(
                   labelText: "Name",
@@ -111,6 +120,11 @@ class ChangeProfileView extends GetView<ChangeProfileController> {
               ),
               TextField(
                 controller: controller.statusC,
+                textInputAction: TextInputAction.done,
+                onEditingComplete: () {
+                  authC.changeProfile(
+                      controller.nameC.text, controller.statusC.text);
+                },
                 cursorColor: Colors.black,
                 decoration: InputDecoration(
                   labelText: "Status",
@@ -150,7 +164,10 @@ class ChangeProfileView extends GetView<ChangeProfileController> {
               SizedBox(
                 width: Get.width,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    authC.changeProfile(
+                        controller.nameC.text, controller.statusC.text);
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.red[900],
                     shape: RoundedRectangleBorder(
