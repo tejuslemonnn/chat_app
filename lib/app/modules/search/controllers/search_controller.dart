@@ -13,10 +13,17 @@ class SearchController extends GetxController {
 
   final authC = Get.find<AuthController>();
 
-  void searchUser(String data) async {
+  void searchUser(String data, String email) async {
     if (data.isEmpty) {
+      CollectionReference users = await fireStore.collection("users");
+      final result = await users.where("email", isNotEqualTo: email).get();
+
       tempQuery.value = [];
       tempSearch.value = [];
+
+      for (int i = 0; i < result.docs.length; i++) {
+        tempSearch.add(result.docs[i].data() as Map<String, dynamic>);
+      }
     } else {
       var capitalized = data.substring(0, 1).toUpperCase() + data.substring(1);
 
@@ -24,6 +31,7 @@ class SearchController extends GetxController {
         CollectionReference users = await fireStore.collection("users");
         final result = await users
             .where("keyName", isEqualTo: data.substring(0, 1).toUpperCase())
+            .where("email", isNotEqualTo: email)
             .get();
 
         if (result.docs.isNotEmpty) {
@@ -51,6 +59,7 @@ class SearchController extends GetxController {
   @override
   void onInit() {
     searchC = TextEditingController();
+    searchUser("", authC.user.value.email.toString());
     super.onInit();
   }
 

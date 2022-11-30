@@ -1,3 +1,4 @@
+import 'package:chat_app/app/controllers/auth_controller.dart';
 import 'package:chat_app/app/modules/search/widgets/search_bar.dart';
 import 'package:chat_app/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
@@ -8,8 +9,8 @@ import 'package:lottie/lottie.dart';
 import '../controllers/search_controller.dart';
 
 class SearchView extends GetView<SearchController> {
-  const SearchView({Key? key}) : super(key: key);
-
+  SearchView({Key? key}) : super(key: key);
+  final authC = Get.find<AuthController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +27,10 @@ class SearchView extends GetView<SearchController> {
             ),
           ),
           flexibleSpace: SearchBar(
-            onChanged: (value) => controller.searchUser(value),
+            onChanged: (value) => controller.searchUser(
+              value,
+              authC.user.value.email!,
+            ),
             controller: controller.searchC,
           ),
         ),
@@ -36,46 +40,40 @@ class SearchView extends GetView<SearchController> {
           children: [
             Obx(() {
               return Expanded(
-                child: controller.tempSearch.isEmpty
-                    ? Center(
-                        child: SizedBox(
-                          height: Get.width * 0.7,
-                          width: Get.width * 0.7,
-                          child: Lottie.asset("assets/lottie/empty.json"),
-                        ),
-                      )
-                    : ListView.builder(
-                        itemCount: controller.tempSearch.length,
-                        itemBuilder: (context, index) => ListTile(
-                          contentPadding: EdgeInsets.symmetric(
-                            vertical: 10,
-                            horizontal: 15,
-                          ),
-                          onTap: () => Get.toNamed(Routes.CHAT_ROOM),
-                          leading: CircleAvatar(
-                            radius: 30,
-                            backgroundColor: Colors.black26,
-                            child: Image.asset(
-                              "assets/logo/noimage.png",
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          title: Text(
-                            "${controller.tempSearch[index]["name"]}",
-                            style: const TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                          subtitle: const Text(
-                            "Status Lorem",
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
+                child: ListView.builder(
+                  itemCount: controller.tempSearch.length,
+                  itemBuilder: (context, index) => ListTile(
+                    contentPadding: EdgeInsets.symmetric(
+                      vertical: 10,
+                      horizontal: 15,
+                    ),
+                    onTap: () => authC.addConnection(
+                      controller.tempSearch[index]["email"],
+                    ),
+                    leading: CircleAvatar(
+                      radius: 30,
+                      backgroundColor: Colors.black26,
+                      child: Image.asset(
+                        "assets/logo/noimage.png",
+                        fit: BoxFit.cover,
                       ),
+                    ),
+                    title: Text(
+                      "${controller.tempSearch[index]["name"]}",
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    subtitle: const Text(
+                      "Status Lorem",
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ),
               );
             }),
           ],

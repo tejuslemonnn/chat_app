@@ -9,6 +9,7 @@ import '../controllers/login_controller.dart';
 
 class LoginView extends GetView<LoginController> {
   final authC = Get.find<AuthController>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,41 +28,45 @@ class LoginView extends GetView<LoginController> {
               SizedBox(
                 height: 100,
               ),
-              ElevatedButton(
-                onPressed: () => authC.login(),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red[900],
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 6,
-                  ),
-                  maximumSize: Size.fromWidth(
-                    Get.width * 0.8,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(
-                      25,
-                    ),
-                  ),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: 50,
-                      height: 50,
-                      child: Image.asset(
-                        "assets/logo/google.png",
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 15,
-                    ),
-                    const Text(
-                      "Sign in with Google",
-                    )
-                  ],
-                ),
-              ),
+              Obx(() {
+                return authC.isLoading.isTrue
+                    ? CircularProgressIndicator()
+                    : ElevatedButton(
+                        onPressed: () => authC.login(),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.red[900],
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 6,
+                          ),
+                          maximumSize: Size.fromWidth(
+                            Get.width * 0.8,
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                              25,
+                            ),
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              width: 50,
+                              height: 50,
+                              child: Image.asset(
+                                "assets/logo/google.png",
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 15,
+                            ),
+                            const Text(
+                              "Sign in with Google",
+                            )
+                          ],
+                        ),
+                      );
+              }),
             ],
           ),
         ),

@@ -10,6 +10,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 class AuthController extends GetxController {
   var isSkip = false.obs;
   var isAuth = false.obs;
+  var isLoading = false.obs;
 
   final GoogleSignIn _googleSignIn = GoogleSignIn(
       // scopes: [
@@ -85,6 +86,8 @@ class AuthController extends GetxController {
 
   Future<void> login() async {
     try {
+      isLoading.value = true;
+
       await _googleSignIn.signOut();
       await _googleSignIn.signIn().then((value) => _accountUser = value);
 
@@ -151,6 +154,7 @@ class AuthController extends GetxController {
         ));
 
         isAuth.value = true;
+        isLoading.value = false;
         Get.offAllNamed(Routes.HOME);
       }
     } catch (error) {
@@ -193,5 +197,53 @@ class AuthController extends GetxController {
       title: "Success",
       middleText: "Profile Changed",
     );
+  }
+
+  void addConnection(String email) async {
+    String date = DateTime.now().toIso8601String();
+
+    CollectionReference chats = fireStore.collection("chats");
+
+    final newChat = await chats.add({
+      "connection": [
+        _accountUser!.email,
+        email,
+      ],
+      "total_chats": 0,
+      "total_read": 0,
+      "total_unread": 0,
+      "chats": [],
+      "lastTime": date,
+    });
+
+    CollectionReference users = fireStore.collection("users");
+
+    users.doc(_accountUser!.email).update(
+      {
+        "chats": [
+          {
+            "connection": email,
+            "chats_id": newChat.id,
+            "lastTime": date,
+          }
+        ],
+      },
+    );
+
+    user.update(
+      (val) {
+        val!.chats = [
+          ChatUser(
+            chatId: newChat.id,
+            connection: email,
+            lastTime: date,
+          )
+        ];
+      },
+    );
+
+    user.refresh();
+
+    Get.toNamed(Routes.CHAT_ROOM);
   }
 }
