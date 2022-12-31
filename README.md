@@ -1,4 +1,4 @@
-# chat_app ( UNCOMPLETED)
+# chat_app ( UNCOMPLETED )
 
 A new Flutter project.
 
